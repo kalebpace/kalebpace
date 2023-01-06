@@ -20,14 +20,21 @@
               jnoortheen.nix-ide
               viktorqvarfordt.vscode-pitch-black-theme
               asvetliakov.vscode-neovim
+              graphql.vscode-graphql
             ];
           });
 
         wranglerPublishPrePush = with pkgs; pkgs.writeShellScriptBin "wrangler-publish" ''
-          ${wrangler}/bin/wrangler pages publish ./pay --project-name pay --branch main
-          RESULT=$?
-          [ $RESULT != 0 ] && echo "Failed to publish to cloudflare, try running again..."
-          exit $RESULT
+            current_branch=$(git rev-parse --abbrev-ref --symbolic-full-name HEAD)
+            if [ "$current_branch" != "main" ]; then
+              echo "Not on main branch, skipping wrangler publish"
+              exit
+            fi
+
+            ${wrangler}/bin/wrangler pages publish ./pay --project-name pay --branch main
+            RESULT=$?
+            [ $RESULT != 0 ] && echo "Failed to publish to cloudflare, try running again..."
+            exit $RESULT
         '';
 
         hookInstaller = pkgs.git-hook-installer { pre-push = [ wranglerPublishPrePush ]; };
@@ -39,7 +46,7 @@
             vscodeWithExtensions
             wrangler
           ];
-          packages = [hookInstaller hookUninstaller];
+          packages = [ hookInstaller hookUninstaller ];
           shellHook = ''
             install-git-hooks
           '';
