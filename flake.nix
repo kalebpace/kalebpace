@@ -20,7 +20,7 @@
               jnoortheen.nix-ide
               viktorqvarfordt.vscode-pitch-black-theme
               asvetliakov.vscode-neovim
-              graphql.vscode-graphql
+              foam.foam-vscode
             ];
           });
 

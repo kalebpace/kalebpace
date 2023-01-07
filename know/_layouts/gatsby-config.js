@@ -9,9 +9,9 @@ module.exports = {
         options: {
           basePath: `/`,
           contentPath: `${__dirname}/../content`,
-          rootNote: `placeholder`,
+          rootNote: `home`,
           ignore: [
-            "**/private/**/*",
+            "**/_private/**/*",
           ],
         },
       },
