@@ -22,6 +22,7 @@
               asvetliakov.vscode-neovim
               foam.foam-vscode
               svelte.svelte-vscode
+              tamasfe.even-better-toml
             ];
           });
 
@@ -53,7 +54,12 @@
           buildInputs = [
             vscodeWithExtensions
             wrangler
+            flyctl
+            terranix
+            terraform
+            pgcli
           ];
+
           packages = [ hookInstaller hookUninstaller ];
           shellHook = ''
             install-git-hooks

@@ -1,0 +1,4 @@
+.env.secrets
+.terraform*
+config.tf.json
+secrets.nix
