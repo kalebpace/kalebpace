@@ -21,6 +21,7 @@
               viktorqvarfordt.vscode-pitch-black-theme
               asvetliakov.vscode-neovim
               foam.foam-vscode
+              svelte.svelte-vscode
             ];
           });
 
