@@ -57,7 +57,6 @@
             flyctl
             terranix
             terraform
-            pgcli
           ];
 
           packages = [ hookInstaller hookUninstaller ];
