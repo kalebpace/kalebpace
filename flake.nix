@@ -57,9 +57,11 @@
             flyctl
             terranix
             terraform
+            lighttpd
           ];
-
+          
           packages = [ hookInstaller hookUninstaller ];
+
           shellHook = ''
             install-git-hooks
           '';

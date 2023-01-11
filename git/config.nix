@@ -56,7 +56,7 @@ in
 
     mounts = [
       {
-        path = "/data";
+        path = "/var/lib/git";
         volume = config.resource.fly_volume.git.name;
       }
     ];
