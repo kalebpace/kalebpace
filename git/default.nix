@@ -1,87 +1,43 @@
 { pkgs ? import <nixpkgs> { } }:
 let
-  # nginxPort = "80";
-  sshPort = "22";
-
-  # nginxConf = pkgs.writeText "nginx.conf" ''
-  #   user nobody nobody;
-  #   daemon off;
-  #   error_log /dev/stdout info;
-  #   pid /dev/null;
-  #   events {}
-  #   http {
-  #     access_log /dev/stdout;
-  #     server {
-  #       listen ${nginxPort};
-  #       index index.html;
-  #       location / {
-  #         root ${nginxWebRoot};
-  #       }
-  #     }
-  #   }
-  # '';
-
-  # nginxWebRoot = pkgs.writeTextDir "index.html" ''
-  #   <html><body><h1>Hello from NGINX</h1></body></html>
-  # '';
-
-  # gitwebNginxConf = pkgs.writeTextFile {
-  #   name = "gitweb";
-  #   text = ''
-  #     server {
-  #       # Git repos are browsable at http://example.com:4321/
-  #       listen 4321 default;   # Remove 'default' from this line if there is already another server running on port 80
-  #       server_name example.com;
-
-  #       location /index.cgi {
-  #         root /usr/share/gitweb/;
-  #         include fastcgi_params;
-  #         gzip off;
-  #         fastcgi_param SCRIPT_NAME $uri;
-  #         fastcgi_param GITWEB_CONFIG /etc/gitweb.conf;
-  #         fastcgi_pass  unix:/var/run/fcgiwrap.socket;
-  #       }
-
-  #       location / {
-  #         root /usr/share/gitweb/;
-  #         index index.cgi;
-  #       }
-  #     }
-  #   '';
-  #   executable = true;
-  #   destination = "/etc/nginx/sites-enabled/gitweb";
-  # };
-
-  pkgsContainerArch = import <nixpkgs> { system = "x86_64-linux"; };
+  cgitrc = (pkgs.writeTextDir "/etc/cgitrc" ''${builtins.readFile ./cgitrc}'');
+  nginxConf = (pkgs.writeTextDir "/etc/nginx/nginx.conf" ''${builtins.readFile ./nginx.conf}'');
 in
-pkgs.dockerTools.buildLayeredImage {
-  name = "gitweb";
+pkgs.dockerTools.buildImage {
+  # fromImage = (pkgs.dockerTools.pullImage {
+  #   imageName = "ubuntu"; #stable-slim
+  #   imageDigest = "sha256:965fbcae990b0467ed5657caceaec165018ef44a4d2d46c7cdea80a9dff0d1ea";
+  #   sha256 = "sha256-P7EulEvNgOyUcHH3fbXRAIAA3afHXx5WELJX7eNeUuM=";
+  # });
+
+  name = "cgit";
   tag = "latest";
 
-  contents = with pkgsContainerArch; [
-    busybox
-    git
-    # gitwebNginxConf
-    nginx
-    openssh
-    pkgs.dockerTools.fakeNss
-    coreutils
-  ];
+  copyToRoot = pkgs.buildEnv {
+    name = "image-root";
+    paths = with import <nixpkgs> { system = "x86_64-linux"; }; [
+      pkgs.fakeNss
+      coreutils
+      bash
+      cgit
+      cgitrc
+      nginx
+      nginxConf
+      fcgiwrap
+      socat
+    ];
+    pathsToLink = [ "/bin" "/cgit" "/etc" "/etc/nginx/fastcgi_params" "/var" "/lib" "/var/log/nginx" "/var/www/html/cgit/cgi" "/run" "/usr" ];
+  };
 
   extraCommands = ''
-    # mkdir -p tmp/nginx_client_body
-    # nginx still tries to read this directory even if error_log
-    # directive is specifying another file :/
-    # mkdir -p var/log/nginx
-    
-    adduser -G git git
+    mkdir -p tmp/nginx_client_body
   '';
 
   config = {
-    # Cmd = [ "nginx" "-c" nginxConf ];
+    Cmd = [ "socat UNIX-LISTEN:/run/fcgiwrap.socket UNIX-SENDTO:/cgit/cgit.cgi & nginx -c /etc/nginx/nginx.conf" ];
+    Env = [ "USER=nobody" ];
     ExposedPorts = {
-      # "${nginxPort}/tcp" = { };
-      "${sshPort}/tcp" = { };
+      "22/tcp" = { };
     };
   };
 }
