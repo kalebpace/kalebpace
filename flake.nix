@@ -2,70 +2,81 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     utils.url = "github:numtide/flake-utils";
-    nix-git-hooks.url = "github:ysndr/nix-git-hooks";
+    terranix.url = "github:terranix/terranix";
   };
 
-  outputs = { self, nixpkgs, utils, nix-git-hooks }:
+  outputs = { self, nixpkgs, utils, terranix, ... }:
     utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ nix-git-hooks.overlay ];
+        pkgs = import nixpkgs { inherit system; };
+        secrets = import ./secrets.nix { };
+
+        projects = {
+          _ = import ./_ { inherit pkgs; };
+          git = import ./git { inherit pkgs; };
+          know = import ./know { inherit pkgs; };
+          pay = import ./pay { inherit pkgs; };
         };
 
-        vscodeWithExtensions = with pkgs;
-          (vscode-with-extensions.override {
-            vscode = vscodium;
-            vscodeExtensions = with vscode-extensions; [
-              jnoortheen.nix-ide
-              viktorqvarfordt.vscode-pitch-black-theme
-              asvetliakov.vscode-neovim
-              foam.foam-vscode
-              svelte.svelte-vscode
-              tamasfe.even-better-toml
-            ];
-          });
-
-        wranglerPublishPrePush = with pkgs; pkgs.writeShellScriptBin "wrangler-publish" ''
-          current_branch=$(git rev-parse --abbrev-ref --symbolic-full-name HEAD)
-          if [ "$current_branch" != "main" ]; then
-            echo "Not on main branch, skipping wrangler publish"
-            exit
-          fi
-
-          ${wrangler}/bin/wrangler pages publish ./pay --project-name pay --branch main
-          RESULT=$?
-          [ $RESULT != 0 ] && echo "Failed to publish to project 'pay', try running again..."
-
-          cd know/_layouts && ${nodejs}/bin/npm install && ${nodejs}/bin/npm run build
-          ${wrangler}/bin/wrangler pages publish ./public --project-name know --branch main
-          RESULT=$?
-          [ $RESULT != 0 ] && echo "Failed to publish to project 'know', try running again..."
-          cd ../..
-
-          exit $RESULT
-        '';
-
-        hookInstaller = pkgs.git-hook-installer { pre-push = [ wranglerPublishPrePush ]; };
-        hookUninstaller = pkgs.git-hook-uninstaller;
+        tfConfig = terranix.lib.terranixConfiguration {
+          inherit system;
+          modules = [
+            (import ./config.nix {
+              inherit secrets;
+            })
+          ] ++ builtins.concatMap (p: [ p.tfConfig ]) projects;
+        };
       in
       rec {
-        devShell = with pkgs; (mkShell.override { stdenv = pkgs.stdenv; } {
-          buildInputs = [
-            vscodeWithExtensions
-            wrangler
-            flyctl
-            terranix
-            terraform
-            lighttpd
-          ];
+        packages = {
+          know = projects.know.packages.default;
+        };
 
-          packages = [ hookInstaller hookUninstaller ];
+        devShells = {
+          know = projects.know.devShells.default;
+          default = with pkgs; mkShell {
+            buildInputs = [
+              (vscode-with-extensions.override {
+                vscode = vscodium;
+                vscodeExtensions = with vscode-extensions; [
+                  jnoortheen.nix-ide
+                  viktorqvarfordt.vscode-pitch-black-theme
+                  asvetliakov.vscode-neovim
+                  foam.foam-vscode
+                  svelte.svelte-vscode
+                  tamasfe.even-better-toml
+                ];
+              })
+            ];
+          };
+        };
 
-          shellHook = ''
-            install-git-hooks
-          '';
-        });
+        apps = rec {
+          # nix run
+          default = apply;
+
+          # nix run ".#apply"
+          apply = {
+            type = "app";
+            program = toString (pkgs.writers.writeBash "apply" ''
+              if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+              cp ${tfConfig} config.tf.json \
+                && ${pkgs.terraform}/bin/terraform init \
+                && ${pkgs.terraform}/bin/terraform apply
+            '');
+          };
+
+          # nix run ".#destroy"
+          destroy = {
+            type = "app";
+            program = toString (pkgs.writers.writeBash "destroy" ''
+              if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+              cp ${tfConfig} config.tf.json \
+                && ${pkgs.terraform}/bin/terraform init \
+                && ${pkgs.terraform}/bin/terraform destroy
+            '');
+          };
+        };
       }
     );
 }

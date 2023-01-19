@@ -1,3 +1,6 @@
 .direnv/
+.terraform/
 .envrc
 .DS_Store
+config.tf.json
+secrets.nix

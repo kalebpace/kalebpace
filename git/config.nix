@@ -1,23 +1,5 @@
 { config, ... }:
-let
-  secrets = (import ./secrets.nix) { };
-in
 {
-  terraform.required_providers = {
-    fly = {
-      source = "fly-apps/fly";
-    };
-  };
-
-  provider = {
-    fly = {
-      fly_api_token = secrets.FLY_API_TOKEN;
-      useinternaltunnel = true;
-      internaltunnelorg = "personal";
-      internaltunnelregion = "dfw";
-    };
-  };
-
   resource.fly_app.git = {
     name = "snowflake-megaphone-hovercraft";
   };

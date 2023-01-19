@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, ...}:
 let
   cgitrc = (pkgs.writeTextDir "/etc/cgitrc" ''${builtins.readFile ./cgitrc}'');
   nginxConf = (pkgs.writeTextDir "/etc/nginx/nginx.conf" ''${builtins.readFile ./nginx.conf}'');
