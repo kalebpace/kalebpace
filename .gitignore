@@ -1,6 +1,7 @@
 .direnv/
 .terraform/
 node_modules/
+result
 .envrc
 .DS_Store
 config.tf.json

@@ -37,7 +37,7 @@
         packages = {
           _ = projects._.packages.default;
           git = projects.git.packages.default;
-          know = projects.know.packages.default;
+          # know = projects.know.packages.default;
           pay = projects.pay.packages.default;
         };
 

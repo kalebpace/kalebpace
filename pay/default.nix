@@ -11,7 +11,9 @@ with pkgs;
     src = builtins.filterSource (path: type: baseNameOf path != "default.nix") ./.;
     inherit buildInputs;
     installPhase = ''
-      CLOUDFLARE_API_TOKEN=${secrets.CF_API_TOKEN} wrangler pages publish ./ --project-name pay --branch main
+      mkdir -p $out
+      CLOUDFLARE_API_TOKEN=${secrets.CF_API_TOKEN} wrangler pages publish ./ --project-name pay --branch main \
+      > $out/wrangler.log
     '';
   };
 

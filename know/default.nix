@@ -3,14 +3,13 @@ let
   npm2nix = pkgs.callPackage npmlock2nix { };
 in
 {
-  # packages.default = npm2nix.v1.build {
+  # packages.default = npm2nix.v2.build {
   #   src = ./_layouts;
-  #   buildCommands = [ "HOME=. npm run build" ];
+  #   buildCommands = [ "HOME=/tmp npm run build" ];
   #   installPhase = "cp -r public $out";
-  #   node_modules_mose = "copy";
   # };
 
-  devShells.default = npm2nix.v1.shell {
+  devShells.default = npm2nix.v2.shell {
     src = ./_layouts;
     nativeBuildInputs = with pkgs; [ wrangler ];
   };

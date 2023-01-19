@@ -1,4 +1,5 @@
 {
+  "name": "know",
   "scripts": {
     "develop": "NODE_ENV=development gatsby develop",
     "build": "gatsby build"

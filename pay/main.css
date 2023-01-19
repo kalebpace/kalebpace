@@ -1,0 +1,192 @@
+  html,
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 3s;
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    animation: fadeIn 5s;
+
+  }
+
+  footer>div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  h2 {
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+  }
+
+  h4 {
+    padding-bottom: 0.25em;
+    margin-bottom: 0em;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background-color: #000;
+      --primary-color: #fff;
+      --code-block-color: #eee;
+      --invert-colors: 1;
+    }
+
+    .logo {
+      display: block;
+      filter: invert(100%);
+      height: 8em;
+      width: 8em;
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --background-color: #fff;
+      --primary-color: #000;
+      --code-block-color: #eee;
+      --invert-colors: 0;
+    }
+
+    .logo {
+      display: block;
+      height: 8em;
+      width: 8em;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+
+  /*** "minimal css" by https://github.com/chr15m ***/
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0 auto;
+    max-width: 50em;
+    font-family: "Helvetica", "Arial", sans-serif;
+    line-height: 1.5;
+    padding: 2em 1em;
+  }
+
+  h1 {
+    font-size: 2.5em
+  }
+
+  h2 {
+    font-size: 2em;
+  }
+
+  h3 {
+    font-size: 1.5em
+  }
+
+  h2,
+  h3 {
+    margin-top: 1.5em;
+  }
+
+  h1,
+  h2,
+  strong {
+    color: var(--primary-color);
+  }
+
+  pre {
+    border-left: 2px solid #bbb;
+    padding: 1em;
+  }
+
+  a {
+    color: var(--primary-color);
+  }
+
+  /*** buttons ***/
+  button,
+  .button {
+    border-radius: 0.375em;
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    min-height: 3.5em;
+    line-height: 3.5em;
+    padding: 0 2.25em;
+    text-decoration: none;
+    margin: 0.25em 0.25em;
+    font-size: 0.8em;
+    box-shadow: inset 0 0 0 2px var(--primary-color);
+    font-weight: 700;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .primary {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: none;
+  }
+
+  /*** Layout ***/
+  .fit,
+  .full {
+    width: calc(100% - 0.5em);
+  }
+
+  .half {
+    width: calc(50% - 0.7em);
+  }
+
+  .mid {
+    text-align: center;
+  }
+
+  .double {
+    font-size: 1em;
+  }
+
+  .icon {
+    width: 3.5em;
+    padding: 0px;
+  }
+
+  .icon>* {
+    font-size: 2em;
+    line-height: 1em;
+    vertical-align: middle;
+  }
