@@ -3,19 +3,23 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     utils.url = "github:numtide/flake-utils";
     terranix.url = "github:terranix/terranix";
+    npmlock2nix = {
+      url = "github:nix-community/npmlock2nix";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, utils, terranix, ... }:
+  outputs = { self, nixpkgs, utils, terranix, npmlock2nix, ... }:
     utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        secrets = import ./secrets.nix { };
+        secrets = import ./secrets.nixz;
 
         projects = {
           _ = import ./_ { inherit pkgs; };
           git = import ./git { inherit pkgs; };
-          know = import ./know { inherit pkgs; };
-          pay = import ./pay { inherit pkgs; };
+          know = import ./know { inherit pkgs npmlock2nix; };
+          pay = import ./pay { inherit pkgs secrets; };
         };
 
         tfConfig = terranix.lib.terranixConfiguration {
@@ -24,16 +28,25 @@
             (import ./config.nix {
               inherit secrets;
             })
-          ] ++ builtins.concatMap (p: [ p.tfConfig ]) projects;
+            projects.know.tfConfig
+            projects.pay.tfConfig
+          ];
         };
       in
       rec {
         packages = {
+          _ = projects._.packages.default;
+          git = projects.git.packages.default;
           know = projects.know.packages.default;
+          pay = projects.pay.packages.default;
         };
 
         devShells = {
+          _ = projects._.devShells.default;
+          git = projects.git.devShells.default;
           know = projects.know.devShells.default;
+          pay = projects.pay.devShells.default;
+
           default = with pkgs; mkShell {
             buildInputs = [
               (vscode-with-extensions.override {

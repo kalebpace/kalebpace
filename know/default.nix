@@ -1,24 +1,18 @@
-{ pkgs, ... }:
+{ pkgs, npmlock2nix, ... }:
 let
-  buildInputs = with pkgs; [
-    wrangler
-    nodejs
-  ];
+  npm2nix = pkgs.callPackage npmlock2nix { };
 in
-with pkgs;
 {
-  packages.default = stdenv.mkDerivation {
-    name = "know";
-    inherit buildInputs;
-    installPhase = ''
-      cd _layouts
-      ${nodejs}/bin/npm install && npm build
-      cp -r ./public $out/
-    '';
-  };
+  # packages.default = npm2nix.v1.build {
+  #   src = ./_layouts;
+  #   buildCommands = [ "HOME=. npm run build" ];
+  #   installPhase = "cp -r public $out";
+  #   node_modules_mose = "copy";
+  # };
 
-  devShells.default = mkShell {
-    packages = buildInputs;
+  devShells.default = npm2nix.v1.shell {
+    src = ./_layouts;
+    nativeBuildInputs = with pkgs; [ wrangler ];
   };
 
   tfConfig = {
@@ -34,6 +28,12 @@ with pkgs;
       account_id = "\${ data.cloudflare_zone.kalebpaceme.account_id }";
       name = "know";
       production_branch = "main";
+    };
+
+    resource.cloudflare_pages_domain.know = {
+      account_id = "\${ data.cloudflare_zone.kalebpaceme.account_id }";
+      project_name = "know";
+      domain = "know.kalebpace.me";
     };
   };
 }

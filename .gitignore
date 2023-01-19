@@ -1,6 +1,9 @@
 .direnv/
 .terraform/
+node_modules/
 .envrc
 .DS_Store
 config.tf.json
 secrets.nix
+*.backup
+*.bak
