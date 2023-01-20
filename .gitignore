@@ -1,6 +1,6 @@
 .direnv/
 .terraform/
-node_modules/
+node_modules
 result
 .envrc
 .DS_Store

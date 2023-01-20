@@ -17,7 +17,7 @@
         secrets = import "${builtins.getEnv "PWD"}/secrets.nix";
 
         projects = {
-          _ = import ./_ { inherit pkgs; };
+          _ = import ./_ { inherit pkgs npmlock2nix; };
           git = import ./git { inherit pkgs pkgs-x86_64-linux; };
           know = import ./know { inherit pkgs npmlock2nix; };
           pay = import ./pay { inherit pkgs secrets; };
