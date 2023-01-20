@@ -1,0 +1,154 @@
+\documentclass{deedy-resume-openfont}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\begin{document}
+
+%	TITLE SECTION
+\namesection{Kaleb}{Pace}{
+	\urlstyle {same} \href{https://kalebpace.me/resume}{\url{kalebpace.me/resume}} |
+	\href{mailto:kaleb.pace@pm.me}{kaleb.pace@pm.me} 
+}
+
+\vspace{0.05\textwidth}
+\begin{minipage}[t]{0.64 \textwidth}
+
+	%	RIGHT COLUMN
+	\section{Relevant Experience}
+	\runsubsection{Zenus}
+	\descript{| Founding Head of Engineering}
+	\location{November 2019 - July 2022 | Austin, TX}
+	\vspace{\topsep}
+	\begin{tightemize}
+		\item Research and design (partial implementation) new ETL architecture to support \textasciitilde500 IoT devices with a message broker, ingest into time series DB, and materialize/aggregate statistical queries for streaming analytics.
+		\item On-board globally remote contract engineers
+		\item Design and implement Vue 2/Vuetify JAMStack application for displaying facial analytics and impressions collected by devices, hosted on Cloudflare Pages.
+		\item Design  IoT device enclosure with FreeCAD, at-home FDM PLA print of prototypes, and manufacturing (Hubs 3D printed MJF Nylon PA-12).
+		\item Migrate CUDA accelerated PyTorch computer vision application to Balena OS on NVIDIA Jetson Xavier and containerized services. 
+		\item Inherited AWS architecture from ex co-founder and refactored service management from in-house Boto3 solution to ECS task management for improved service scheduling and stability.
+	\end{tightemize}
+	\sectionsep
+	\runsubsection{BabelStreet}
+	\descript{| Software Engineer}
+	\location{July 2018 - November 2019 | Starkville, MS}
+	\begin{tightemize}
+		\item Rewrote URL extraction methods into statically compiled regexes which reduced extraction time from \textbf{20s to 0.5s} per \textasciitilde1k documents collected
+		\item Migrate console applications to MS Service Fabric guest executables reducing time to deploy from \textbf{\textasciitilde{10 minutes to seconds}} per application
+		\item Assist with SRE architecture and on-call incident response using VictorOps
+		\item Package, build, and deploy services using Bamboo CI/CD pipelines written in Java
+	\end{tightemize}
+	\sectionsep
+																																																																		
+	\runsubsection{Horne Cyber}
+	\descript{| Cyber Risk Analyist (Red Team)}
+	\location{June 2017 - June 2018 | Starkville, MS}
+	\begin{tightemize}
+		\item Discover zero-day vulnerabilities of \textbf{intranet} applications which increased company's competitive standing
+		\item Implement parallel NMAP scans reducing scan time from \textbf{days to hours}
+		\item Containerize entire Elasticsearch stack with Elastalert integration
+		\item Implement Docker pipeline for generating custom Kali Linux images for pen-test appliances deployed into client networks
+	\end{tightemize}
+	\sectionsep
+																																																																		
+	\runsubsection{BeyondTrust (f.k.a. Bomgar)}
+	\descript{| Jr. Software Developer}
+	\location{May 2016 - May 2017 | Jackson, MS}
+	\begin{tightemize}
+		\item Implement ALPN/SNI using OpenSSL C library on Bomgar Box servers for HTTP/2 compatibility
+		\item Implement encrypted syslog-ng multi-server backups over TLS using Python
+		\item Extend Bomgar Box admin page options with HTML/PHP so clients may configure syslog-ng
+	\end{tightemize}
+	\sectionsep
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.35\textwidth}
+	
+	% LEFT COLUMN
+	\section{Education} 
+	\subsection{B.S. Computer Science}
+	\descript{Mississippi State University}
+	\location{May 2018 | Starkville, MS}
+	\vspace{0.1\textwidth}
+																																																																		
+	\section{Skills}
+	\subsection{Services, Platforms, \\ \& Infrastructure}
+	\textbf{Cloudflare}: Pages | Functions | Workers | DNS | Access \\
+	\vspace{0.025\textwidth}
+	\textbf{AWS}: EC2 | S3 | ECS/ECR | Lambda | ALB | Self-Hosted MS Service Fabric on EC2 \\
+	\vspace{0.025\textwidth}
+	\textbf{Balena Cloud}: Balena CI | jetson-flash utilty \\
+	\vspace{0.025\textwidth}
+	\textbf{NVIDIA}: Jetson | Jetson Linux | Nano | Xavier | Xavier eMMC  \\
+	\vspace{0.025\textwidth}
+	\textbf{IBM}: Cloudant | Functions | Code Engine | Kubernetes \\
+	\vspace{0.025\textwidth}
+	\textbf{DigitalOcean}: Droplets | Spaces | Kubernetes \\
+	\vspace{0.025\textwidth}
+	\textbf{GCP}: Firebase | Firestore \\
+	\vspace{0.025\textwidth}
+	\sectionsep
+	\sectionsep
+																																																																		
+	\subsection{Languages \& Frameworks}
+	Vue 2/3 |
+	Typescript | 
+	Python | 
+	Terraform | 
+	Bash | 
+	Golang | 
+	Rust | 
+	C\# (.NETFramework, dotnet core) | 
+	Angular 9 | 
+	Java | 
+	C/C++ |  
+	\LaTeX
+	\sectionsep
+	\sectionsep
+
+	\subsection{Tools}
+	Docker/Podman/LXC/Balena Engine | 
+	Git | 
+	VS Code | 
+	Vite | 
+	pnpm | 
+	Github Actions | 
+	Gitlab Runners | 
+	Jetbrains Suite | 
+	FreeCAD | 
+	Bamboo CI/CD | 
+	Mercurial | 
+	Metasploit | 
+	Burpsuite | 
+	Wireshark
+	\sectionsep
+	\sectionsep
+																																																																		
+	\subsection{Operating Systems}
+	\textbullet{} Linux: 12 years total, 8 professionally\\
+	\textbullet{} Windows 10 \& Server 2019
+	\sectionsep
+	\sectionsep
+																																																																		
+	\section{LINKS} 
+	LinkedIn:// \href{https://www.linkedin.com/in/kaleb-pace}{\bf kaleb-pace} \\
+	GitHub:// \href{https://github.com/kalebpace}{\bf kalebpace} \\
+	GitLab:// \href{https://gitlab.com/kalebpace}{\bf kalebpace} \\
+	Twitter:// \href{https://twitter.com/kalebpace}{\bf @kalebpace} \\
+	Mastodon:// \href{https://social.coop/web/kalebpace}{\bf @kalebpace@social.coop} \\
+	Matrix:// \href{https://matrix.to/#/@kalebpace:matrix.org}{\bf @kalebpace:matrix.org} \\
+																																																																		
+\end{minipage} 
+% \newpage % Start a new page
+% \begin{minipage}[t]{1.00\textwidth} % The left column takes up 33% of the text width of the page
+% 	\section{Experience (Cont.)}
+% 	\runsubsection{Company Title}
+% 	\descript{| Position Title}
+% 	\location{Length-of-employment | location}
+% 	\vspace{\topsep}
+% 	\begin{tightemize}
+% 	\end{tightemize}
+% 	\sectionsep
+% \end{minipage} 
+\end{document}

@@ -12,8 +12,7 @@ with pkgs;
     inherit buildInputs;
     installPhase = ''
       mkdir -p $out
-      CLOUDFLARE_API_TOKEN=${secrets.CF_API_TOKEN} wrangler pages publish ./ --project-name pay --branch main \
-      > $out/wrangler.log
+      cp -r ./ $out
     '';
   };
 
@@ -27,7 +26,8 @@ with pkgs;
       name = "pay";
       value = "\${ cloudflare_pages_project.pay.subdomain }";
       type = "CNAME";
-      ttl = 3600;
+      proxied = true;
+      ttl = 1;
     };
 
     resource.cloudflare_pages_project.pay = {

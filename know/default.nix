@@ -20,7 +20,8 @@ in
       name = "know";
       value = "\${ cloudflare_pages_project.know.subdomain }";
       type = "CNAME";
-      ttl = 3600;
+      proxied = true;
+      ttl = 1;
     };
 
     resource.cloudflare_pages_project.know = {

@@ -1,0 +1,103 @@
+# The URL the site will be built for
+base_url = "https://read.kalebpace.me"
+
+title = "K|P"
+description = "definitely not atx"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# When set to "true", a search index is built from the pages and section
+# content for `default_language`.
+build_search_index = false
+
+# When set to "true", a feed is automatically generated.
+generate_feed = true
+
+# The taxonomies to be rendered for the site and their configuration of the default languages
+taxonomies = [
+    { name = "tags", rss = true },
+    { name = "categories", rss = true },
+]
+
+[markdown]
+# When set to "true", all code blocks are highlighted.
+highlight_code = true
+
+# The theme to use for code highlighting.
+# See Zola configuration docs for list of allowed values.
+highlight_theme = "ayu-mirage"
+
+[languages]
+[languages.en]
+title = "K | P"
+description = "definitely not atx"
+generate_feed = true
+feed_filename = "atom.xml"
+
+[languages.en.translations]
+projects = "Projects"
+blog = "Blog"
+about = "About"
+resume = "Resume"
+recent_projects = "Recent Projects"
+more_projects = "More Projects"
+recent_blog_posts = "Recent Blog Posts"
+more_blog_posts = "More blog posts"
+tag = "Tag"
+tags = "Tags"
+to_all_tags = "To all tags"
+category = "Category"
+categories = "Categories"
+to_all_categories = "To all categories"
+view_by = "View by"
+other = "Other"
+minute = "min"
+prev_page = "To newer posts"
+next_page = "To older posts"
+# Customize your post date format. See: https://tera.netlify.app/docs/#date
+date_format = "%B %e, %Y"
+
+[extra]
+# Development environment. Used by the page macros to load remote content only when in "prod" mode
+env = "ZOLA_ENV"
+
+# List of Papaya navigational menu items. Used to construct the navigation bar. See the README for item schema.
+menu_items = [
+    # { name = "projects", url = "$LANG_BASE_URL/projects", show_recent = true, recent_items = 3, recent_trans_key = "recent_projects", more_trans_key = "more_projects" },
+    { name = "blog", url = "$LANG_BASE_URL/blog", show_recent = true, recent_items = 3, recent_trans_key = "recent_blog_posts", more_trans_key = "more_blog_posts" },
+    # tag is not a zola section, it's just a link.
+    # { name = "tags", url = "$LANG_BASE_URL/tags" },
+    { name = "about", url = "$LANG_BASE_URL/about", show_recent = false },
+    { name = "resume", url = "https://kalebpace.me/resume", show_recent = false }
+]
+
+[extra.images]
+# Width defined in pixels
+max_width = 2500
+
+# Open Graph Protocol objects. See: https://ogp.me/
+[extra.ogp]
+locale = "en_US"
+first_name = "Kaleb"
+last_name = "Pace"
+gender = "male"
+username = "kalebpace"
+
+# Footer social links; full options listed in macros/social.html
+[extra.social]
+email = "inbox.zitdf@slmail.me"
+github = "kalebpace"
+gitlab = "kalebpace"
+linkedin = "kaleb-pace"
+twitter = "kalebpace"
+mastodon = "social.coop/@kalebpace"
+matrix = "@klarkkable:matrix.org"
+telegram = "klarkkable"
+# other = [
+#     { name = "BTC", font_awesome = "fa-brands fa-btc", url = "https://www.bitcoin.com/" }
+# ]
+
+# CDN links
+[extra.cdn]
+font_awesome = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"

@@ -13,13 +13,16 @@
     utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        secrets = import ./secrets.nixz;
+        pkgs-x86_64-linux = import nixpkgs { system = "x86_64-linux"; };
+        secrets = import "${builtins.getEnv "PWD"}/secrets.nix";
 
         projects = {
           _ = import ./_ { inherit pkgs; };
-          git = import ./git { inherit pkgs; };
+          git = import ./git { inherit pkgs pkgs-x86_64-linux; };
           know = import ./know { inherit pkgs npmlock2nix; };
           pay = import ./pay { inherit pkgs secrets; };
+          read = import ./read { inherit pkgs secrets; };
+          resume = import ./_/assets/resume { inherit pkgs; };
         };
 
         tfConfig = terranix.lib.terranixConfiguration {
@@ -30,6 +33,7 @@
             })
             projects.know.tfConfig
             projects.pay.tfConfig
+            projects.read.tfConfig
           ];
         };
       in
@@ -39,6 +43,8 @@
           git = projects.git.packages.default;
           # know = projects.know.packages.default;
           pay = projects.pay.packages.default;
+          read = projects.read.packages.default;
+          resume = projects.resume.packages.default;
         };
 
         devShells = {
@@ -46,6 +52,7 @@
           git = projects.git.devShells.default;
           know = projects.know.devShells.default;
           pay = projects.pay.devShells.default;
+          read = projects.read.devShells.default;
 
           default = with pkgs; mkShell {
             buildInputs = [
@@ -58,6 +65,8 @@
                   foam.foam-vscode
                   svelte.svelte-vscode
                   tamasfe.even-better-toml
+                  mhutchie.git-graph
+                  tomoki1207.pdf
                 ];
               })
             ];
@@ -87,6 +96,16 @@
               cp ${tfConfig} config.tf.json \
                 && ${pkgs.terraform}/bin/terraform init \
                 && ${pkgs.terraform}/bin/terraform destroy
+            '');
+          };
+          
+          # nix run ".#deploy"
+          deploy = {
+            type = "app";
+            program = toString (pkgs.writers.writeBash "deploy" ''
+              export CLOUDFLARE_API_KEY=${secrets.CF_API_TOKEN}
+              ${pkgs.wrangler}/bin/wrangler pages publish ${projects.pay.packages.default} --project-name pay --branch main
+              ${pkgs.wrangler}/bin/wrangler pages publish ${projects.read.packages.default} --project-name read --branch main
             '');
           };
         };

@@ -1,4 +1,4 @@
-# container vm setup
+# container vm setup: CURRENTLY BROKEN
 limactl start
 podman system connection add lima-podman "unix:///Users/kaleb/.lima/podman/sock/podman.sock"
 podman system connection default lima-podman

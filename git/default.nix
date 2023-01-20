@@ -1,22 +1,17 @@
-{ pkgs, ... }:
+{ pkgs,pkgs-x86_64-linux, ... }:
 let
   cgitrc = (pkgs.writeTextDir "/etc/cgitrc" ''${builtins.readFile ./cgitrc}'');
   nginxConf = (pkgs.writeTextDir "/etc/nginx/nginx.conf" ''${builtins.readFile ./nginx.conf}'');
 in
-{
-  packages.default = pkgs.dockerTools.buildImage {
-    # fromImage = (pkgs.dockerTools.pullImage {
-    #   imageName = "ubuntu"; #stable-slim
-    #   imageDigest = "sha256:965fbcae990b0467ed5657caceaec165018ef44a4d2d46c7cdea80a9dff0d1ea";
-    #   sha256 = "sha256-P7EulEvNgOyUcHH3fbXRAIAA3afHXx5WELJX7eNeUuM=";
-    # });
-
+with pkgs;
+rec {
+  packages.default = dockerTools.buildImage {
     name = "cgit";
     tag = "latest";
 
-    copyToRoot = pkgs.buildEnv {
+    copyToRoot = buildEnv {
       name = "image-root";
-      paths = with import <nixpkgs> { system = "x86_64-linux"; }; [
+      paths = with pkgs-x86_64-linux; [
         pkgs.fakeNss
         coreutils
         bash
@@ -25,7 +20,7 @@ in
         nginx
         nginxConf
         fcgiwrap
-        socat
+        spawn_fcgi
       ];
       pathsToLink = [ "/bin" "/cgit" "/etc" "/etc/nginx/fastcgi_params" "/var" "/lib" "/var/log/nginx" "/var/www/html/cgit/cgi" "/run" "/usr" ];
     };
@@ -35,7 +30,7 @@ in
     '';
 
     config = {
-      Cmd = [ "socat UNIX-LISTEN:/run/fcgiwrap.socket UNIX-SENDTO:/cgit/cgit.cgi & nginx -c /etc/nginx/nginx.conf" ];
+      Cmd = ["exec /usr/bin/spawn-fcgi -n -s /run/fcgiwrap.sock -u 1000 -U www-data -- /cgit/cgit.cgi" "&" "nginx -c /etc/nginx/nginx.conf" ];
       Env = [ "USER=nobody" ];
       ExposedPorts = {
         "22/tcp" = { };
