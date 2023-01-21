@@ -31,6 +31,7 @@
             (import ./config.nix {
               inherit secrets;
             })
+            projects._.tfConfig
             projects.know.tfConfig
             projects.pay.tfConfig
             projects.read.tfConfig
@@ -104,6 +105,7 @@
             type = "app";
             program = toString (pkgs.writers.writeBash "deploy" ''
               export CLOUDFLARE_API_KEY=${secrets.CF_API_TOKEN}
+              ${pkgs.wrangler}/bin/wrangler pages publish ${projects._.packages.default} --project-name underscore --branch main
               ${pkgs.wrangler}/bin/wrangler pages publish ${projects.pay.packages.default} --project-name pay --branch main
               ${pkgs.wrangler}/bin/wrangler pages publish ${projects.read.packages.default} --project-name read --branch main
             '');

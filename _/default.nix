@@ -5,8 +5,9 @@ in
 {
   packages.default = npm2nix.v2.build {
     src = ./.;
-    buildCommands = [ "npm run build" ];
-    installPhase = "cp -r public $out";
+    # don't let npm write to fs to avoid error exit status
+    buildCommands = [ "npm run build --logs-max=0 --silent --offline" ];
+    installPhase = "cp -r build $out";
   };
 
   devShells.default = npm2nix.v2.shell {
@@ -17,23 +18,23 @@ in
   tfConfig = {
     resource.cloudflare_record._ = {
       zone_id = "\${ data.cloudflare_zone.kalebpaceme.id }";
-      name = "@";
+      name = "next";
       value = "\${ cloudflare_pages_project._.subdomain }";
-      type = "A";
+      type = "CNAME";
       proxied = true;
       ttl = 1;
     };
 
     resource.cloudflare_pages_project._ = {
       account_id = "\${ data.cloudflare_zone.kalebpaceme.account_id }";
-      name = "_";
+      name = "underscore";
       production_branch = "main";
     };
 
     resource.cloudflare_pages_domain._ = {
       account_id = "\${ data.cloudflare_zone.kalebpaceme.account_id }";
-      project_name = "_";
-      domain = "kalebpace.me";
+      project_name = "underscore";
+      domain = "next.kalebpace.me";
     };
   };
 }
