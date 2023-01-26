@@ -18,6 +18,7 @@
 
         projects = {
           _ = import ./_ { inherit pkgs npmlock2nix; };
+          book = import ./book { };
           git = import ./git { inherit pkgs pkgs-x86_64-linux; };
           know = import ./know { inherit pkgs npmlock2nix; };
           pay = import ./pay { inherit pkgs secrets; };
@@ -32,6 +33,7 @@
               inherit secrets;
             })
             projects._.tfConfig
+            projects.book.tfConfig
             projects.know.tfConfig
             projects.pay.tfConfig
             projects.read.tfConfig

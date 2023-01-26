@@ -34,6 +34,18 @@ with pkgs;
       account_id = "\${ data.cloudflare_zone.kalebpaceme.account_id }";
       name = "pay";
       production_branch = "main";
+      deployment_configs = {
+        preview = {
+          always_use_latest_compatibility_date = true;
+          fail_open = false;
+          usage_model = "bundled";
+        };
+        production = {
+          compatibility_date = "2023-01-20";
+          fail_open = false;
+          usage_model = "bundled";
+        };
+      };
     };
 
     resource.cloudflare_pages_domain.pay = {

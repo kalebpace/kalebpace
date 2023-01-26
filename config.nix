@@ -1,9 +1,5 @@
 {secrets, ...}:
 {
-  data.cloudflare_zone.kalebpaceme = {
-    name = "kalebpace.me";
-  };
-
   provider = {
     cloudflare = {
       api_token = secrets.CF_API_TOKEN;
