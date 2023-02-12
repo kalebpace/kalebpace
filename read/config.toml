@@ -1,8 +1,8 @@
 # The URL the site will be built for
-base_url = "https://read.kalebpace.me"
+base_url = "https://kalebpace.me"
 
-title = "K|P"
-description = "definitely not atx"
+title = "K | P"
+description = "topics, projects, research"
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -31,19 +31,20 @@ highlight_theme = "ayu-mirage"
 [languages]
 [languages.en]
 title = "K | P"
-description = "definitely not atx"
+description = "topics, projects, research"
 generate_feed = true
 feed_filename = "atom.xml"
 
 [languages.en.translations]
 projects = "Projects"
-blog = "Blog"
+posts = "Posts"
 about = "About"
 resume = "Resume"
+book = "Book"
 recent_projects = "Recent Projects"
 more_projects = "More Projects"
-recent_blog_posts = "Recent Blog Posts"
-more_blog_posts = "More blog posts"
+recent_posts = "Recent Posts"
+more_posts = "More posts"
 tag = "Tag"
 tags = "Tags"
 to_all_tags = "To all tags"
@@ -65,11 +66,12 @@ env = "ZOLA_ENV"
 # List of Papaya navigational menu items. Used to construct the navigation bar. See the README for item schema.
 menu_items = [
     # { name = "projects", url = "$LANG_BASE_URL/projects", show_recent = true, recent_items = 3, recent_trans_key = "recent_projects", more_trans_key = "more_projects" },
-    { name = "blog", url = "$LANG_BASE_URL/blog", show_recent = true, recent_items = 3, recent_trans_key = "recent_blog_posts", more_trans_key = "more_blog_posts" },
+    { name = "posts", url = "$LANG_BASE_URL/posts", show_recent = true, recent_items = 3, recent_trans_key = "recent_posts", more_trans_key = "more_posts" },
     # tag is not a zola section, it's just a link.
     # { name = "tags", url = "$LANG_BASE_URL/tags" },
     { name = "about", url = "$LANG_BASE_URL/about", show_recent = false },
-    { name = "resume", url = "https://kalebpace.me/resume", show_recent = false }
+    { name = "resume", url = "https://kalebpace.notion.site/Resume-d2ff276fc6c64f19a69e582d3175d9bb", show_recent = false },
+    { name = "book", url = "https://cal.com/kalebpace", show_recent = false },
 ]
 
 [extra.images]
@@ -92,7 +94,7 @@ gitlab = "kalebpace"
 linkedin = "kaleb-pace"
 twitter = "kalebpace"
 mastodon = "social.coop/@kalebpace"
-matrix = "@klarkkable:matrix.org"
+matrix = "@kalebpace:matrix.org"
 telegram = "klarkkable"
 # other = [
 #     { name = "BTC", font_awesome = "fa-brands fa-btc", url = "https://www.bitcoin.com/" }

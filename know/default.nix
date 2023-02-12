@@ -2,12 +2,24 @@
 let
   npm2nix = pkgs.callPackage npmlock2nix { };
 in
+rec
 {
-  # packages.default = npm2nix.v2.build {
-  #   src = ./_layouts;
-  #   buildCommands = [ "HOME=/tmp npm run build" ];
-  #   installPhase = "cp -r public $out";
-  # };
+  packages = rec {
+    default = npm2nix.v2.build {
+      src = ./_layouts;
+      nativeBuildInputs = [ pkgs.sysctl ];
+      buildInputs = [ content ];
+      buildCommands = [ "HOME=/tmp npm run build --slient --offline" ];
+      installPhase = "cp -r public $out";
+      node_modules_mode = "copy";
+    };
+
+    content = pkgs.stdenv.mkDerivation {
+      name = "content";
+      src = ./content;
+      installPhase = "mkdir $out && cp -r . $out";
+    };
+  };
 
   devShells.default = npm2nix.v2.shell {
     src = ./_layouts;

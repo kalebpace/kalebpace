@@ -1,4 +1,4 @@
-{ pkgs, secrets, ... }:
+{ pkgs, secrets, resume, ... }:
 let
   buildInputs = with pkgs; [
     zola
@@ -7,11 +7,13 @@ let
 in
 {
   packages.default = pkgs.stdenv.mkDerivation {
-    name = "site";
+    name = "read";
     src = ./.;
     buildInputs = buildInputs;
     phases = [ "unpackPhase" "buildPhase" "installPhase" ];
     buildPhase = ''
+      ls ../*
+      cp -r ${resume.packages.default}/resume.pdf ./static/resume.pdf
       zola build
     '';
     installPhase = ''
@@ -29,7 +31,7 @@ in
   tfConfig = {
     resource.cloudflare_record.read = {
       zone_id = "\${ data.cloudflare_zone.kalebpaceme.id }";
-      name = "read";
+      name = "@";
       value = "\${ cloudflare_pages_project.read.subdomain }";
       type = "CNAME";
       proxied = true;
@@ -57,7 +59,7 @@ in
     resource.cloudflare_pages_domain.read = {
       account_id = "\${ data.cloudflare_zone.kalebpaceme.account_id }";
       project_name = "read";
-      domain = "read.kalebpace.me";
+      domain = "kalebpace.me";
     };
   };
 }

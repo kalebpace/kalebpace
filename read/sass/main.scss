@@ -1,16 +1,29 @@
 /* Variables */
-$background-color: #011627;
-$background-color-secondary: #013864;
+$background-color: #ffffff;
+$background-color-secondary: #000000;
 $border-color: #c3c3c3;
+$text-color: #777777;
+$link-color: #444444;
+$link-hover-color: #000000;
+$link-hover-line-color: #454545;
+$icon-hover-color: $link-hover-color;
 
-$text-color: #888;
+$background-color-dark: #000000;
+$background-color-secondary-dark: #ffffff;
+$border-color-dark: #c3c3c3;
+$text-color-dark: #888888;
+$link-color-dark: #cbcbcb;
+$link-hover-color-dark: #ffffff;
+$link-hover-line-color-dark: #1e1e1e;
+$icon-hover-color-dark: $link-hover-color-dark;
 
 $a11y-gray: #757575;
 
-$link-color: #bb4d49;
-$link-hover-color: #f75d59;
-$link-hover-line-color: #f75d59;
-$icon-hover-color: $link-hover-color;
+@mixin darkMode {
+    @media(prefers-color-scheme: dark) {
+        @content;
+      }
+}
 
 /* Basic */
 html {
@@ -29,6 +42,11 @@ body {
     font-size: 16px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    
+    @include darkMode {
+        background: $background-color-dark;
+        color: $text-color-dark;
+    }
 }
 
 body::-webkit-scrollbar {
@@ -37,11 +55,19 @@ body::-webkit-scrollbar {
 
 body::-webkit-scrollbar-track {
     background: $background-color;        
+
+    @include darkMode {
+        background: $background-color-dark;
+    }
 }
 
 body::-webkit-scrollbar-thumb {
     background-color: $link-color;    
     border-radius: 20px;       
+    
+    @include darkMode {
+        background-color: $link-color-dark;
+    }
 }
 
 
@@ -87,6 +113,10 @@ main {
     margin-block-start: 1em;
     margin-block-end: 0;
     border-bottom: thin dotted $border-color;
+    
+    @include darkMode {
+        border-bottom: thin dotted $border-color-dark;
+    }
 }
 .index-banner {
     width: 100%;
@@ -95,6 +125,9 @@ main {
     object-position: 0 42%;
     border-top-left-radius: 50px;
     border: 1px solid $border-color;
+    @include darkMode {
+        border: 1px solid $border-color-dark;
+    }
 }
 
 /* Headers */
@@ -116,6 +149,10 @@ h3 {
 a {
     color: $link-color;
     text-decoration: none;
+    
+    @include darkMode {
+        color: $link-color-dark;
+    }
 }
 
 a:active,
@@ -127,16 +164,28 @@ a:hover,
 a:focus {
     color: $link-hover-color;
     // border-bottom: 1px solid $link-hover-line-color;
+
+    @include darkMode {
+        color: $link-hover-color-dark;
+    }
 }
 
 a:active {
     color: $link-hover-color;
     opacity: 0.9;
     // border-bottom: 1px solid $link-hover-line-color;
+
+    @include darkMode {
+        color: $link-hover-color-dark;
+    }
 }
 
 a.active {
     color: $link-hover-color;
+
+    @include darkMode {
+        color: $link-hover-color-dark;
+    }
 }
 
 /* Table */
@@ -203,6 +252,10 @@ mark {
     background-color: $link-color;
     padding: 0.1em;
     border-radius: 0.25em;
+    
+    @include darkMode {
+        background-color: $link-color-dark;
+    }
 }
 
 /* Header */
@@ -232,7 +285,6 @@ header {
 
         ul {
             list-style-type: none;
-            display: inline-block;
             float: right;
         }
 
@@ -317,6 +369,9 @@ article header h2 {
     }
     a:hover {
         color: $link-hover-color;
+        @include darkMode {
+            color: $link-hover-color;
+        }
     }
 }
 
@@ -399,6 +454,10 @@ figcaption {
 .bordered {
     border: 3px solid $background-color;
     box-shadow: 0 0 0 3px #fafafa;
+    
+    @include darkMode {
+    border: 3px solid $background-color-dark;
+    }
 }
 
 .read-more {
@@ -424,6 +483,10 @@ figcaption {
         margin-top: 1em;
         padding-top: 1em;
         border-top: 1px dotted $border-color;
+        
+        @include darkMode {
+            border-top: 1px dotted $border-color-dark;
+        }
     }
 }
 
@@ -441,6 +504,10 @@ figcaption {
     a {
         color: $text-color;
         text-decoration: none;
+        
+        @include darkMode {
+            color: $text-color-dark;
+        }
     }
 
     a:active,
@@ -452,16 +519,29 @@ figcaption {
     a:focus {
         color: $link-hover-color;
         border-bottom: 1px solid $link-hover-line-color;
+        
+        @include darkMode {
+            color: $link-hover-color-dark;
+            border-bottom: 1px solid $link-hover-line-color-dark;
+        }
     }
 
     a:active {
         color: $link-hover-color;
         opacity: 0.9;
         border-bottom: 1px solid $link-hover-line-color;
+        
+        @include darkMode {
+            color: $link-hover-color-dark;
+            border-bottom: 1px solid $link-hover-line-color-dark;
+        }
     }
 
     a.active {
         color: $link-hover-color;
+        @include darkMode {
+            color: $link-hover-color-dark;
+        }
     }
 
     img {
@@ -518,6 +598,10 @@ figcaption {
     a:hover, a:focus {
         color: $link-hover-color;
         border-bottom: 0;
+        
+        @include darkMode {
+            color: $link-hover-color-dark;
+        }
     }
 }
 
@@ -528,6 +612,10 @@ footer {
     margin-top: 2em;
     font-size: 16px;
     text-align: center;
+    
+    @include darkMode {
+        border-top: thin dotted $border-color-dark;
+    }
 }
 
 
@@ -549,6 +637,10 @@ footer {
         border-bottom: none;
 
         transition: all 0.1s linear;
+        
+        @include darkMode {
+            color: $icon-hover-color-dark;
+        }
     }
 }
 

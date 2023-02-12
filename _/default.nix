@@ -16,13 +16,9 @@ in
   };
 
   tfConfig = {
-    data.cloudflare_zone.kalebpaceme = {
-      name = "kalebpace.me";
-    };
-
     resource.cloudflare_record._ = {
       zone_id = "\${ data.cloudflare_zone.kalebpaceme.id }";
-      name = "next";
+      name = "@";
       value = "\${ cloudflare_pages_project._.subdomain }";
       type = "CNAME";
       proxied = true;
@@ -50,7 +46,7 @@ in
     resource.cloudflare_pages_domain._ = {
       account_id = "\${ data.cloudflare_zone.kalebpaceme.account_id }";
       project_name = "underscore";
-      domain = "next.kalebpace.me";
+      domain = "kalebpace.me";
     };
   };
 }

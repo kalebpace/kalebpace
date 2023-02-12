@@ -23,4 +23,8 @@
       source = "fly-apps/fly";
     };
   };
+  
+  data.cloudflare_zone.kalebpaceme = {
+    name = "kalebpace.me";
+  };
 }

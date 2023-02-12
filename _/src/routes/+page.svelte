@@ -1,36 +1,47 @@
-<script lang="ts">
-	import { Canvas, InteractiveObject, OrbitControls, T, useLoader } from '@threlte/core';
-	import { GLTF } from '@threlte/extras';
-	import { spring } from 'svelte/motion';
-	import { degToRad } from 'three/src/math/MathUtils';
-
-	const scale = spring(1);
+<script>
+	const sites = [
+		{
+			name: 'projects',
+			content: 'code forge',
+			link: 'https://github.com/kalebpace'
+		},
+		{
+			name: 'book',
+			content: 'schedule a call',
+			link: 'https://cal.com/kalebpace'
+		},
+		{
+			name: 'blog',
+			content: 'read about projects',
+			link: '/blog'
+		},
+		// {
+		// 	name: 'know',
+		// 	content: 'knowledge garden',
+		// 	link: 'https://know.kalebpace.me'
+		// }
+		// {
+		// 	name: 'graph.me'.split('.'),
+		// 	content: 'view analytics',
+		// 	link: 'https://graph.kalebpace.me'
+		// },
+		// {
+		// 	name: 'pay.me'.split('.'),
+		// 	content: 'support my work',
+		// 	link: 'https://pay.kalebpace.me'
+		// }
+	];
 </script>
 
-<div class="h-screen">
-	<Canvas>
-		<T.PerspectiveCamera makeDefault position={[3, 10, 10]} fov={24}>
-			<OrbitControls maxPolarAngle={degToRad(80)} enableZoom={false} target={{ y: 0.5 }} />
-		</T.PerspectiveCamera>
-
-		<T.DirectionalLight castShadow position={[3, 25, 25]} />
-		<T.DirectionalLight position={[-3, 10, -10]} intensity={0.4} />
-		<T.AmbientLight intensity={0.2} />
-
-		<GLTF
-			url="/logo-3d.gltf"
-			scale={{ x: 24, y: 24, z: 24 }}
-			castShadow
-			interactive
-			on:click={() => {
-				console.log('User clicked!');
-			}}
-		/>
-
-		<!-- Floor -->
-		<T.Mesh receiveShadow rotation.x={degToRad(-90)}>
-			<T.CircleGeometry args={[3, 72]} />
-			<T.MeshStandardMaterial color="white" />
-		</T.Mesh>
-	</Canvas>
-</div>
+<main class="transition-all grid grid-cols-1 sm:grid-cols-2 gap-8 place-content-center mx-auto">
+	{#each sites as site}
+		<a href={site.link}>
+			<div class="dark:text-white px-6 py-2">
+				<h5 class="text-2xl pb-4">
+					{site.name}
+				</h5>
+				<p class="text-xs uppercase">{site.content}</p>
+			</div>
+		</a>
+	{/each}
+</main>
