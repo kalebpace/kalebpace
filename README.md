@@ -1,6 +1,6 @@
 ## About
 
-### Professionally
+<!-- ### Professionally -->
 I am a Fullstack & Systems Engineer who enjoys designing approachable interfaces and cost-effective, managible infrastructure with small teams. I often think about ways to optimize development workflows for collaboration, distribution, and individual ability to understand a project in its entirety.  
 
 I have worked in event analytics, open-source intelligence, network and application pen-testing, remote support software, manufacturing automation and validation, and bioinformatics.
